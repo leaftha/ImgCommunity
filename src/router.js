@@ -3,6 +3,8 @@ import Main from "./Main";
 import List from "./List";
 import NewForm from "./NewForm";
 import Post from "./post";
+import Login from "./login";
+import Signup from "./Signup";
 
 const Router = () => {
   return (
@@ -11,6 +13,8 @@ const Router = () => {
         <Route path="/" element={<Main />} />
         <Route path="/list" element={<List />} />
         <Route path="/new" element={<NewForm />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/post/:id" element={<Post />} />
       </Routes>
     </BrowserRouter>
