@@ -14,8 +14,9 @@ const NewForm = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!image) {
       alert("이미지를 선택해주세요.");
       return;
@@ -30,8 +31,20 @@ const NewForm = () => {
     formData.append("caption", caption);
     formData.append("title", title);
 
-    console.log("업로드할 데이터:", formData);
-    alert("게시물이 업로드되었습니다!");
+    try {
+      const response = await fetch("http://localhost:8080/api/posts", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("업로드 실패");
+      }
+
+      alert("게시물이 업로드되었습니다!");
+    } catch (error) {
+      alert("오류: " + error.message);
+    }
   };
 
   return (
