@@ -1,19 +1,42 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const List = () => {
-  const posts = [
-    { id: 1, title: "첫 번째 게시물" },
-    { id: 2, title: "두 번째 게시물" },
-  ];
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch("http://13.124.227.234/api/post/all", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("게시물 불러오기 실패");
+        }
+
+        const result = await response.json();
+        setPosts(result);
+      } catch (error) {
+        console.error("에러 발생:", error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
   return (
     <div>
-      <h1>List</h1>
       <Link to="/new">새로운 게시물</Link>
       <h1>게시물 목록</h1>
       <ul>
         {posts.map((post) => (
           <li key={post.id}>
-            <Link to={`/post/${post.id}`}>{post.title}</Link>
+            <Link to={`/post/${post.postId}`} state={{ post }}>
+              {post.title}
+            </Link>
           </li>
         ))}
       </ul>

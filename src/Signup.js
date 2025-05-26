@@ -8,7 +8,7 @@ const Signup = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:8080/signup", {
+      const response = await fetch("http://13.124.227.234/api/users/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -25,6 +25,7 @@ const Signup = () => {
       }
 
       alert("회원가입 성공!");
+      window.location.href = "/";
     } catch (error) {
       alert("오류: " + error.message);
     }

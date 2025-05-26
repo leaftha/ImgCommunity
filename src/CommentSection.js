@@ -18,32 +18,24 @@ const CommentSection = () => {
   };
 
   return (
-    <div style={{ marginTop: "2rem" }}>
+    <div>
       <div>
         <button onClick={handleLike}>👍 좋아요 {likes}</button>
       </div>
 
-      <form onSubmit={handleCommentSubmit} style={{ marginTop: "1rem" }}>
+      <form onSubmit={handleCommentSubmit}>
         <textarea
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
           placeholder="댓글을 입력하세요"
           rows={3}
-          style={{ width: "100%", padding: "8px" }}
         />
-        <button type="submit" style={{ marginTop: "8px" }}>
-          댓글 작성
-        </button>
+        <button type="submit">댓글 작성</button>
       </form>
 
-      <ul style={{ marginTop: "1rem" }}>
+      <ul>
         {comments.map((comment, index) => (
-          <li
-            key={index}
-            style={{ padding: "6px 0", borderBottom: "1px solid #ddd" }}
-          >
-            {comment}
-          </li>
+          <li key={index}>{comment}</li>
         ))}
       </ul>
     </div>

@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useAuth } from "./context/AuthContext";
 
 const NewForm = () => {
   const [title, setTitle] = useState("");
   const [image, setImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [caption, setCaption] = useState("");
+  const { user, logout } = useAuth();
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -27,12 +29,13 @@ const NewForm = () => {
     }
 
     const formData = new FormData();
+    formData.append("userId", user.userId);
     formData.append("image", image);
     formData.append("caption", caption);
     formData.append("title", title);
 
     try {
-      const response = await fetch("http://localhost:8080/api/posts", {
+      const response = await fetch("http://13.124.227.234/api/post", {
         method: "POST",
         body: formData,
       });
@@ -46,7 +49,6 @@ const NewForm = () => {
       alert("오류: " + error.message);
     }
   };
-
   return (
     <div>
       <h1>이미지 게시물 업로드</h1>

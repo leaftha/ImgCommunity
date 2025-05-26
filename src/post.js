@@ -1,23 +1,94 @@
-import { useParams } from "react-router-dom";
-import CommentSection from "./CommentSection";
+import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import Comments from "./comment";
+import { useAuth } from "./context/AuthContext";
 
 const Post = () => {
-  const { id } = useParams();
+  const location = useLocation();
+  const { post } = location.state || {};
 
-  const dummyPost = {
-    id,
-    title: "샘플 제목",
-    imageUrl:
-      "https://media.istockphoto.com/id/1154370446/ko/%EC%82%AC%EC%A7%84/%ED%9D%B0%EC%83%89-%EB%B0%B0%EA%B2%BD%EC%97%90-%EA%B3%A0%EB%A6%BD-%EB%90%9C-%EB%B0%94%EC%9C%84-%EC%A0%9C%EC%8A%A4%EC%B2%98%EB%A5%BC-%EB%B3%B4%EC%97%AC%EC%A3%BC%EB%8A%94-%EB%85%B9%EC%83%89-%EC%84%A0%EA%B8%80%EB%9D%BC%EC%8A%A4%EC%97%90-%EC%9E%AC%EB%AF%B8-%EB%84%88%EA%B5%AC%EB%A6%AC.jpg?s=612x612&w=0&k=20&c=atEjJlw_9g7W6SBgISn3sebRa94-zw5GGgyeddCf-AU=",
-    caption: "이것은 이미지에 대한 설명입니다.",
+  const [postUser, setPostUser] = useState(null);
+  const [loadingUser, setLoadingUser] = useState(false);
+  const [errorUser, setErrorUser] = useState(null);
+  const { user, logout } = useAuth();
+  useEffect(() => {
+    if (!post) return;
+
+    const fetchUser = async () => {
+      setLoadingUser(true);
+      try {
+        const response = await fetch(
+          `http://13.124.227.234/api/users/id/${post.userId}`
+        );
+        if (!response.ok) {
+          throw new Error("회원 정보를 불러오는데 실패했습니다.");
+        }
+        const userData = await response.json();
+        setPostUser(userData);
+      } catch (error) {
+        setErrorUser(error.message);
+      } finally {
+        setLoadingUser(false);
+      }
+    };
+
+    fetchUser();
+  }, [post]);
+
+  if (!post) {
+    return <p>게시물 데이터를 찾을 수 없습니다.</p>;
+  }
+  console.log(post);
+  const imageUrl = `http://13.124.227.234/api/post?file=${encodeURIComponent(
+    post.imageUrl
+  )}`;
+
+  const handleDeletePost = async () => {
+    const confirm = window.confirm("정말 이 게시글을 삭제하시겠습니까?");
+    if (!confirm) return;
+
+    try {
+      const response = await fetch(
+        `http://13.124.227.234/api/post/${post.postId}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("게시글 삭제에 실패했습니다.");
+      }
+
+      alert("게시글이 삭제되었습니다.");
+
+      window.location.href = "/";
+    } catch (err) {
+      alert(err.message);
+    }
   };
 
   return (
     <div>
-      <h1>{dummyPost.title}</h1>
-      <img src={dummyPost.imageUrl} alt="게시물" />
-      <p>{dummyPost.caption}</p>
-      <CommentSection />
+      <h2>{post.title}</h2>
+      <p>{post.caption}</p>
+      <img src={imageUrl} alt={post.title} style={{ width: "300px" }} />
+      {user && postUser && user.userId === postUser.userId && (
+        <>
+          <button onClick={handleDeletePost}>삭제</button>
+        </>
+      )}
+      <hr />
+
+      {loadingUser && <p>회원 정보를 불러오는 중...</p>}
+      {errorUser && <p style={{ color: "red" }}>{errorUser}</p>}
+      {postUser && (
+        <div>
+          <h3>작성자 정보</h3>
+          <p>이름: {postUser.name || "이름 정보 없음"}</p>
+          <p>이메일: {postUser.email || "이메일 정보 없음"}</p>
+        </div>
+      )}
+      <Comments postId={post.postId} />
     </div>
   );
 };

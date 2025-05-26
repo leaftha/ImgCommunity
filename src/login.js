@@ -1,22 +1,20 @@
-// src/components/Login.js
 import { useState } from "react";
+import { useAuth } from "./context/AuthContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { login } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:8080/api/login", {
+      const response = await fetch("http://13.124.227.234/api/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
+        body: JSON.stringify({ email, password }),
       });
 
       if (!response.ok) {
@@ -24,7 +22,10 @@ const Login = () => {
       }
 
       const result = await response.json();
+
+      login(result);
       alert("로그인 성공!");
+      window.location.href = "/";
     } catch (error) {
       alert("로그인 실패: " + error.message);
     }
