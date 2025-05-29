@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "./context/AuthContext";
+import "./styles/login.css";
+import "./styles/button.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -32,24 +34,28 @@ const Login = () => {
   };
 
   return (
-    <form onSubmit={handleLogin}>
-      <h2>로그인</h2>
-      <input
-        type="email"
-        placeholder="이메일"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
-      <input
-        type="password"
-        placeholder="비밀번호"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
-      <button type="submit">로그인</button>
-    </form>
+    <div className="form">
+      <form onSubmit={handleLogin}>
+        <h2>로그인</h2>
+        <input
+          type="email"
+          placeholder="이메일"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="비밀번호"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <button type="submit" className="btn btn-large">
+          로그인
+        </button>
+      </form>
+    </div>
   );
 };
 

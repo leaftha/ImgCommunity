@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useAuth } from "./context/AuthContext";
+import "./styles/newform.css";
+import "./styles/button.css";
 
 const NewForm = () => {
   const [title, setTitle] = useState("");
   const [image, setImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [caption, setCaption] = useState("");
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -50,40 +52,36 @@ const NewForm = () => {
     }
   };
   return (
-    <div>
-      <h1>이미지 게시물 업로드</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>제목</label>
-          <input
-            type="text"
-            onChange={(e) => {
-              setTitle(e.target.value);
-            }}
-          ></input>
-          <label>이미지 선택:</label>
-          <input type="file" accept="image/*" onChange={handleImageChange} />
-        </div>
-        {previewUrl && (
+    <div className="newform-wrapper">
+      <div className="newform-content">
+        <h1>이미지 게시물 업로드</h1>
+        <form onSubmit={handleSubmit}>
           <div>
-            <p>미리보기:</p>
-            <img
-              src={previewUrl}
-              alt="미리보기"
-              style={{ maxWidth: "300px" }}
+            <label>제목</label>
+            <input
+              type="text"
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            <label>이미지 선택:</label>
+            <input type="file" accept="image/*" onChange={handleImageChange} />
+          </div>
+          {previewUrl && (
+            <div className="preview-block">
+              <p>미리보기:</p>
+              <img src={previewUrl} alt="미리보기" />
+            </div>
+          )}
+          <div>
+            <label>설명:</label>
+            <textarea
+              value={caption}
+              onChange={(e) => setCaption(e.target.value)}
+              placeholder="이미지에 대한 설명을 입력하세요"
             />
           </div>
-        )}
-        <div>
-          <label>설명:</label>
-          <textarea
-            value={caption}
-            onChange={(e) => setCaption(e.target.value)}
-            placeholder="이미지에 대한 설명을 입력하세요"
-          />
-        </div>
-        <button type="submit">업로드</button>
-      </form>
+          <button type="submit" className="btn btn-large">업로드</button>
+        </form>
+      </div>
     </div>
   );
 };

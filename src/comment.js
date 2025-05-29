@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "./context/AuthContext";
+import "./styles/comment.css";
+import "./styles/button.css";
 
 const Comments = ({ postId }) => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [editingId, setEditingId] = useState(null);
   const [editingText, setEditingText] = useState("");
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -18,7 +20,6 @@ const Comments = ({ postId }) => {
           throw new Error("댓글을 불러오는데 실패했습니다.");
         }
         const data = await response.json();
-        console.log(data);
         setComments(data);
       } catch (err) {}
     };
@@ -76,7 +77,6 @@ const Comments = ({ postId }) => {
       if (!response.ok) {
         throw new Error("댓글 삭제에 실패했습니다.");
       }
-      console.log(commentId);
       setComments((prev) =>
         prev.filter((comment) => comment.commentId !== commentId)
       );
@@ -127,57 +127,58 @@ const Comments = ({ postId }) => {
       alert(err.message);
     }
   };
-  console.log(comments);
-  return (
-    <div>
-      <h3>댓글</h3>
 
+  return (
+    <div className="comments-wrapper">
+      <h3>댓글</h3>
       <ul>
         {comments.map((comment) => (
-          <li key={comment.commentId} style={{ marginBottom: "10px" }}>
+          <li key={comment.commentId}>
             {editingId === comment.commentId ? (
               <>
                 <textarea
                   rows={3}
                   value={editingText}
                   onChange={(e) => setEditingText(e.target.value)}
+                  style={{ flex: 1, marginRight: 10 }}
                 />
-                <button onClick={() => submitEdit(comment.commentId)}>
-                  저장
-                </button>
-                <button onClick={cancelEditing}>취소</button>
+                <div className="comment-btn-group">
+                  <button className="btn btn-small" onClick={() => submitEdit(comment.commentId)}>
+                    저장
+                  </button>
+                  <button className="btn btn-small" onClick={cancelEditing}>취소</button>
+                </div>
               </>
             ) : (
               <>
                 <p>{comment.content}</p>
                 {user && user.userId === comment.userId && (
-                  <>
-                    <button
+                  <div className="comment-btn-group">
+                    <button className="btn btn-small"
                       onClick={() =>
                         startEditing(comment.commentId, comment.content)
                       }
                     >
                       수정
                     </button>
-                    <button onClick={() => handleDelete(comment.commentId)}>
+                    <button className="btn btn-small" onClick={() => handleDelete(comment.commentId)}>
                       삭제
                     </button>
-                  </>
+                  </div>
                 )}
               </>
             )}
           </li>
         ))}
       </ul>
-
-      <form onSubmit={handleSubmit}>
+      <form className="comment-form" onSubmit={handleSubmit}>
         <textarea
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
           placeholder="댓글을 입력하세요"
           rows={3}
         />
-        <button type="submit">댓글 작성</button>
+        <button type="submit" className="btn btn-large">댓글 작성</button>
       </form>
     </div>
   );

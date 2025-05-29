@@ -2,6 +2,8 @@ import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Comments from "./comment";
 import { useAuth } from "./context/AuthContext";
+import "./styles/post.css";
+import "./styles/button.css";
 
 const Post = () => {
   const location = useLocation();
@@ -10,7 +12,8 @@ const Post = () => {
   const [postUser, setPostUser] = useState(null);
   const [loadingUser, setLoadingUser] = useState(false);
   const [errorUser, setErrorUser] = useState(null);
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
+
   useEffect(() => {
     if (!post) return;
 
@@ -38,14 +41,13 @@ const Post = () => {
   if (!post) {
     return <p>게시물 데이터를 찾을 수 없습니다.</p>;
   }
-  console.log(post);
   const imageUrl = `http://13.124.227.234/api/post?file=${encodeURIComponent(
     post.imageUrl
   )}`;
 
   const handleDeletePost = async () => {
-    const confirm = window.confirm("정말 이 게시글을 삭제하시겠습니까?");
-    if (!confirm) return;
+    const confirmDelete = window.confirm("정말 이 게시글을 삭제하시겠습니까?");
+    if (!confirmDelete) return;
 
     try {
       const response = await fetch(
@@ -60,7 +62,6 @@ const Post = () => {
       }
 
       alert("게시글이 삭제되었습니다.");
-
       window.location.href = "/";
     } catch (err) {
       alert(err.message);
@@ -68,27 +69,26 @@ const Post = () => {
   };
 
   return (
-    <div>
-      <h2>{post.title}</h2>
-      <p>{post.caption}</p>
-      <img src={imageUrl} alt={post.title} style={{ width: "300px" }} />
-      {user && postUser && user.userId === postUser.userId && (
-        <>
-          <button onClick={handleDeletePost}>삭제</button>
-        </>
-      )}
-      <hr />
-
-      {loadingUser && <p>회원 정보를 불러오는 중...</p>}
-      {errorUser && <p style={{ color: "red" }}>{errorUser}</p>}
-      {postUser && (
-        <div>
-          <h3>작성자 정보</h3>
-          <p>이름: {postUser.name || "이름 정보 없음"}</p>
-          <p>이메일: {postUser.email || "이메일 정보 없음"}</p>
-        </div>
-      )}
-      <Comments postId={post.postId} />
+    <div className="post">
+      <div className="post-content">
+        <h2>{post.title}</h2>
+        <p>{post.caption}</p>
+        <img src={imageUrl} alt={post.title} />
+        {user && postUser && user.userId === postUser.userId && (
+          <button className="btn btn-small" onClick={handleDeletePost}>삭제</button>
+        )}
+        <hr />
+        {loadingUser && <p>회원 정보를 불러오는 중...</p>}
+        {errorUser && <p className="post-error">{errorUser}</p>}
+        {postUser && (
+          <div>
+            <h3>작성자 정보</h3>
+            <p>이름: {postUser.name || "이름 정보 없음"}</p>
+            <p>이메일: {postUser.email || "이메일 정보 없음"}</p>
+          </div>
+        )}
+        <Comments postId={post.postId} />
+      </div>
     </div>
   );
 };

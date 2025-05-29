@@ -1,0 +1,82 @@
+.comments-wrapper {
+  width: 100%;
+  margin-top: 32px;
+}
+
+.comments-wrapper h3 {
+  margin: 0 0 18px 0;
+  font-size: 1.2rem;
+  color: #222;
+}
+
+.comments-wrapper ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px 0;
+  width: 100%;
+}
+
+.comments-wrapper li {
+  background: #f7f7f7;
+  border-radius: 6px;
+  margin-bottom: 14px;
+  padding: 14px 20px;
+  font-size: 1.03rem;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  position: relative;
+}
+
+.comments-wrapper p {
+  margin: 0;
+  word-break: break-all;
+  flex: 1;
+}
+
+/* 버튼 영역을 한 줄 우측 끝에 정렬 */
+.comment-btn-group {
+  display: flex;
+  gap: 6px;
+  margin-left: 14px;
+}
+
+.comment-form {
+  width: 100%;
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.comment-form textarea,
+.comment-form input[type="text"] {
+  flex: 1;
+  width: 100%;
+  min-height: 44px;
+  font-size: 1.05rem;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1.5px solid #e0e0e0;
+  box-sizing: border-box;
+  resize: vertical;
+}
+.comment-form button {
+  min-width: 90px;
+  height: 44px;
+  font-size: 0.98rem;
+  border-radius: 6px;
+  border: 1px solid #bbb;
+  background: none;
+  color: #333;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.18s, border 0.18s;
+  padding: 0 16px;
+  box-sizing: border-box;
+  margin: 0;
+}
+.comment-form button:hover {
+  background: #f0f0f0;
+  border: 1px solid #888;
+  color: #222;
+}

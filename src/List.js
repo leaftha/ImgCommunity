@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import "./styles/list.css";
+import "./styles/button.css";
 
 const List = () => {
   const [posts, setPosts] = useState([]);
@@ -28,9 +30,13 @@ const List = () => {
     fetchPosts();
   }, []);
   return (
-    <div>
-      <Link to="/new">새로운 게시물</Link>
-      <h1>게시물 목록</h1>
+    <div className="list">
+      <div className="list-header">
+        <h1>게시물 목록</h1>
+        <Link to="/new" className="btn btn-small">
+          새로운 게시물
+        </Link>
+      </div>
       <ul>
         {posts.map((post) => (
           <li key={post.id}>
