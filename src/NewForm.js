@@ -37,7 +37,7 @@ const NewForm = () => {
     formData.append("title", title);
 
     try {
-      const response = await fetch("http://13.124.227.234/api/post", {
+      const response = await fetch("https://13.124.227.234/api/post", {
         method: "POST",
         body: formData,
       });
@@ -58,10 +58,7 @@ const NewForm = () => {
         <form onSubmit={handleSubmit}>
           <div>
             <label>제목</label>
-            <input
-              type="text"
-              onChange={(e) => setTitle(e.target.value)}
-            />
+            <input type="text" onChange={(e) => setTitle(e.target.value)} />
             <label>이미지 선택:</label>
             <input type="file" accept="image/*" onChange={handleImageChange} />
           </div>
@@ -79,7 +76,9 @@ const NewForm = () => {
               placeholder="이미지에 대한 설명을 입력하세요"
             />
           </div>
-          <button type="submit" className="btn btn-large">업로드</button>
+          <button type="submit" className="btn btn-large">
+            업로드
+          </button>
         </form>
       </div>
     </div>

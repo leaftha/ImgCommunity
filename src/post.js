@@ -21,7 +21,7 @@ const Post = () => {
       setLoadingUser(true);
       try {
         const response = await fetch(
-          `http://13.124.227.234/api/users/id/${post.userId}`
+          `https://13.124.227.234/api/users/id/${post.userId}`
         );
         if (!response.ok) {
           throw new Error("회원 정보를 불러오는데 실패했습니다.");
@@ -41,7 +41,7 @@ const Post = () => {
   if (!post) {
     return <p>게시물 데이터를 찾을 수 없습니다.</p>;
   }
-  const imageUrl = `http://13.124.227.234/api/post?file=${encodeURIComponent(
+  const imageUrl = `https://13.124.227.234/api/post?file=${encodeURIComponent(
     post.imageUrl
   )}`;
 
@@ -51,7 +51,7 @@ const Post = () => {
 
     try {
       const response = await fetch(
-        `http://13.124.227.234/api/post/${post.postId}`,
+        `https://13.124.227.234/api/post/${post.postId}`,
         {
           method: "DELETE",
         }
@@ -75,7 +75,9 @@ const Post = () => {
         <p>{post.caption}</p>
         <img src={imageUrl} alt={post.title} />
         {user && postUser && user.userId === postUser.userId && (
-          <button className="btn btn-small" onClick={handleDeletePost}>삭제</button>
+          <button className="btn btn-small" onClick={handleDeletePost}>
+            삭제
+          </button>
         )}
         <hr />
         {loadingUser && <p>회원 정보를 불러오는 중...</p>}

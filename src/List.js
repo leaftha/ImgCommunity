@@ -12,7 +12,7 @@ const List = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch("http://13.124.227.234/api/post/all", {
+        const response = await fetch("https://13.124.227.234/api/post/all", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

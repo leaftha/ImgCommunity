@@ -14,7 +14,7 @@ const Comments = ({ postId }) => {
     const fetchComments = async () => {
       try {
         const response = await fetch(
-          `http://13.124.227.234/api/comment/${postId}`
+          `https://13.124.227.234/api/comment/${postId}`
         );
         if (!response.ok) {
           throw new Error("댓글을 불러오는데 실패했습니다.");
@@ -35,7 +35,7 @@ const Comments = ({ postId }) => {
     }
 
     try {
-      const response = await fetch("http://13.124.227.234/api/comment", {
+      const response = await fetch("https://13.124.227.234/api/comment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -50,7 +50,7 @@ const Comments = ({ postId }) => {
       }
 
       const fetchResponse = await fetch(
-        `http://13.124.227.234/api/comment/${postId}`
+        `https://13.124.227.234/api/comment/${postId}`
       );
       if (!fetchResponse.ok) {
         throw new Error("댓글 목록을 불러오는데 실패했습니다.");
@@ -68,7 +68,7 @@ const Comments = ({ postId }) => {
 
     try {
       const response = await fetch(
-        `http://13.124.227.234/api/comment/${commentId}`,
+        `https://13.124.227.234/api/comment/${commentId}`,
         {
           method: "DELETE",
         }
@@ -103,7 +103,7 @@ const Comments = ({ postId }) => {
 
     try {
       const response = await fetch(
-        `http://13.124.227.234/api/comment/${commentId}`,
+        `https://13.124.227.234/api/comment/${commentId}`,
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
@@ -143,10 +143,15 @@ const Comments = ({ postId }) => {
                   style={{ flex: 1, marginRight: 10 }}
                 />
                 <div className="comment-btn-group">
-                  <button className="btn btn-small" onClick={() => submitEdit(comment.commentId)}>
+                  <button
+                    className="btn btn-small"
+                    onClick={() => submitEdit(comment.commentId)}
+                  >
                     저장
                   </button>
-                  <button className="btn btn-small" onClick={cancelEditing}>취소</button>
+                  <button className="btn btn-small" onClick={cancelEditing}>
+                    취소
+                  </button>
                 </div>
               </>
             ) : (
@@ -154,14 +159,18 @@ const Comments = ({ postId }) => {
                 <p>{comment.content}</p>
                 {user && user.userId === comment.userId && (
                   <div className="comment-btn-group">
-                    <button className="btn btn-small"
+                    <button
+                      className="btn btn-small"
                       onClick={() =>
                         startEditing(comment.commentId, comment.content)
                       }
                     >
                       수정
                     </button>
-                    <button className="btn btn-small" onClick={() => handleDelete(comment.commentId)}>
+                    <button
+                      className="btn btn-small"
+                      onClick={() => handleDelete(comment.commentId)}
+                    >
                       삭제
                     </button>
                   </div>
@@ -178,7 +187,9 @@ const Comments = ({ postId }) => {
           placeholder="댓글을 입력하세요"
           rows={3}
         />
-        <button type="submit" className="btn btn-large">댓글 작성</button>
+        <button type="submit" className="btn btn-large">
+          댓글 작성
+        </button>
       </form>
     </div>
   );

@@ -10,7 +10,7 @@ const Signup = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://13.124.227.234/api/users/signup", {
+      const response = await fetch("https://13.124.227.234/api/users/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
