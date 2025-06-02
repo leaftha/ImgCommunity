@@ -9,7 +9,7 @@ const Main = () => {
   return (
     <div>
       <div className="main-header">
-        <h1>Main</h1>
+        <h1>ImgCommunity</h1>
         {user && (
           <button className="btn btn-small" onClick={logout}>
             로그아웃

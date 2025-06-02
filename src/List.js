@@ -3,8 +3,11 @@ import { Link } from "react-router-dom";
 import "./styles/list.css";
 import "./styles/button.css";
 
+const POSTS_PER_PAGE = 10;
+
 const List = () => {
   const [posts, setPosts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -29,6 +32,15 @@ const List = () => {
 
     fetchPosts();
   }, []);
+
+  const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE);
+  const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
+  const currentPosts = posts.slice(startIndex, startIndex + POSTS_PER_PAGE);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
     <div className="list">
       <div className="list-header">
@@ -37,8 +49,9 @@ const List = () => {
           새로운 게시물
         </Link>
       </div>
+
       <ul>
-        {posts.map((post) => (
+        {currentPosts.map((post) => (
           <li key={post.id}>
             <Link to={`/post/${post.postId}`} state={{ post }}>
               {post.title}
@@ -46,6 +59,18 @@ const List = () => {
           </li>
         ))}
       </ul>
+
+      <div className="pagination">
+        {Array.from({ length: totalPages }, (_, idx) => idx + 1).map((num) => (
+          <button
+            key={num}
+            className={`btn btn-small ${num === currentPage ? "active" : ""}`}
+            onClick={() => handlePageChange(num)}
+          >
+            {num}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };
