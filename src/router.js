@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import Main from "./Main";
 import NewForm from "./NewForm";
 import Post from "./post";
@@ -7,7 +7,7 @@ import Signup from "./Signup";
 
 const Router = () => {
   return (
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/new" element={<NewForm />} />
@@ -15,7 +15,7 @@ const Router = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/post/:id" element={<Post />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 
