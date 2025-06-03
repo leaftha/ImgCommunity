@@ -35,7 +35,7 @@ const Comments = ({ postId }) => {
     }
 
     try {
-      const response = await fetch("https://13.124.227.234/api/comment", {
+      const response = await fetch("http://13.124.227.234/api/comment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -50,7 +50,7 @@ const Comments = ({ postId }) => {
       }
 
       const fetchResponse = await fetch(
-        `https://13.124.227.234/api/comment/${postId}`
+        `http://13.124.227.234/api/comment/${postId}`
       );
       if (!fetchResponse.ok) {
         throw new Error("댓글 목록을 불러오는데 실패했습니다.");
@@ -68,7 +68,7 @@ const Comments = ({ postId }) => {
 
     try {
       const response = await fetch(
-        `https://13.124.227.234/api/comment/${commentId}`,
+        `http://13.124.227.234/api/comment/${commentId}`,
         {
           method: "DELETE",
         }

@@ -37,7 +37,7 @@ const NewForm = () => {
     formData.append("title", title);
 
     try {
-      const response = await fetch("https://13.124.227.234/api/post", {
+      const response = await fetch("http://13.124.227.234/api/post", {
         method: "POST",
         body: formData,
       });
